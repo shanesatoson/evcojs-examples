@@ -15,6 +15,76 @@ npm run dev
 npm run watch
 ```
 
+## output
+
+```json
+here you can do anything with the current state { isbn: '123', title: '123', author: '123' }
+catalog state: { isbn: '123', title: '123', author: '123' }
+inventory state:  { isbn: '123', amount: 1, maxCopies: 2 }
+
+# ----------------------------------------------- #
+projections:
+# ----------------------------------------------- #
+Map(1) {
+  '123' => { isbn: '123', title: '123', author: '123', amount: 1, maxCopies: 2 }
+}
+
+# ----------------------------------------------- #
+events:
+# ----------------------------------------------- #
+[
+  {
+    source: 'https://library.evcojs.org',
+    subject: '/book/123',
+    type: 'event.book.cataloged',
+    id: 'fb098042-9a93-4ea6-9eb7-3433f0920bb7',
+    timestamp: 2025-06-14T16:18:15.578Z,
+    data: { isbn: '123', title: '123', author: '123' }
+  },
+  {
+    source: 'https://library.evcojs.org',
+    subject: '/book/123',
+    type: 'event.book.copy.registered',
+    id: 'ce1dd149-6a55-4260-9ad7-2494ab35a40b',
+    timestamp: 2025-06-14T16:18:15.578Z,
+    data: { isbn: '123' }
+  },
+  {
+    source: 'https://library.evcojs.org',
+    subject: '/book/123',
+    type: 'event.book.copy.registered',
+    id: 'c5475ef8-385e-4f31-b168-a668b26a9956',
+    timestamp: 2025-06-14T16:18:15.578Z,
+    data: { isbn: '123' }
+  },
+  {
+    source: 'https://library.evcojs.org',
+    subject: '/book/123',
+    type: 'event.book.copy.borrowed',
+    id: 'd4468205-28af-4adf-b661-5240af92d48d',
+    timestamp: 2025-06-14T16:18:15.578Z,
+    data: { isbn: '123' }
+  },
+  {
+    source: 'https://library.evcojs.org',
+    subject: '/book/123',
+    type: 'event.book.copy.borrowed',
+    id: '4c1b0283-1370-4a3b-84e6-f4bb0ac2cbff',
+    timestamp: 2025-06-14T16:18:15.578Z,
+    data: { isbn: '123' }
+  },
+  {
+    source: 'https://library.evcojs.org',
+    subject: '/book/123',
+    type: 'event.book.copy.returned',
+    id: '6fbf717e-db30-44b0-9626-e346d083ccdc',
+    timestamp: 2025-06-14T16:18:15.578Z,
+    data: { isbn: '123' }
+  }
+]
+
+```
+
 # Structure
 
 ## 'database' folder
