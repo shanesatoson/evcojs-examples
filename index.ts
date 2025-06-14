@@ -1,47 +1,53 @@
-import { handleCommand, registerEventhandler, setSource } from "evcojs";
-import "./library.domain";
-import "./library.repository";
-setSource("https://library.evcojs.org");
+import { createState, setSource } from "evcojs";
+import { inMemoryDatabase } from "./database/in-memory-database";
+import { CATALOG_CONTEXT } from "./domain-modules/book-catalog/book-catalog.model";
+import { INVENTORY_CONTEXT } from "./domain-modules/book-inventory/book-inventory.model";
+import { POST as POST_CATALOG } from "./example-domain-usage/fake-http-catalog-controller";
+import {
+  POST_BORROW,
+  POST_REGISTER,
+  POST_RETURN,
+} from "./example-domain-usage/fake-http-inventory-controller";
 
-registerEventhandler("event.book.cataloged", (events) => {
-  console.log("event arrived in own event handler", events);
-});
-await handleCommand({
-  type: "command.catalog.book",
-  subjects: ["/book/123"],
-  data: {
-    isbn: "123",
-    title: "123",
-    author: "123",
-  },
-});
+setSource("https://library.evcojs.org"); //For CloudEvents.source field globally
 
-await handleCommand({
-  type: "command.not.available",
-  subjects: ["/book/123"],
-  data: {
-    isbn: "123",
-    title: "123",
-    author: "123",
-  },
+// add a book to our catalog
+await POST_CATALOG({
+  isbn: "123",
+  title: "123",
+  author: "123",
 });
 
-await handleCommand({
-  type: "command.catalog.book",
-  subjects: ["/book/123"],
-  data: {
-    isbn: "123",
-    title: "123",
-    author: "123",
-  },
+// register 2 copies
+await POST_REGISTER({
+  isbn: "123",
 });
 
-await handleCommand({
-  type: "command.not.available",
-  subjects: ["/book/123"],
-  data: {
-    isbn: "123",
-    title: "123",
-    author: "123",
-  },
+await POST_REGISTER({
+  isbn: "123",
 });
+
+// borrow both copies
+await POST_BORROW({
+  isbn: "123",
+});
+
+await POST_BORROW({
+  isbn: "123",
+});
+
+// return one copy
+await POST_RETURN({
+  isbn: "123",
+});
+
+const catalogState = await createState(CATALOG_CONTEXT, ["/book/123"]);
+console.log("catalog state:", catalogState);
+const inventoryState = await createState(INVENTORY_CONTEXT, ["/book/123"]);
+console.log("inventory state: ", inventoryState); //amount 1, maxCopies 2
+
+console.log("");
+console.log("# ----------------------------------------------- #");
+console.log("events:");
+console.log("# ----------------------------------------------- #");
+console.log(inMemoryDatabase);
