@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "evcojs": "^1.0.3"
+    "evcojs": "^1.0.4"
   },
   "devDependencies": {
     "tsx": "^4.19.4"

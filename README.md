@@ -37,48 +37,54 @@ events:
     source: 'https://library.evcojs.org',
     subject: '/book/123',
     type: 'event.book.cataloged',
-    id: 'fb098042-9a93-4ea6-9eb7-3433f0920bb7',
-    timestamp: 2025-06-14T16:18:15.578Z,
+    id: '997eddd8-ba8d-4420-9b3d-e39f11a27904',
+    time: '2025-06-14T21:39:27.961Z',
+    specversion: '1.0',
     data: { isbn: '123', title: '123', author: '123' }
   },
   {
     source: 'https://library.evcojs.org',
     subject: '/book/123',
     type: 'event.book.copy.registered',
-    id: 'ce1dd149-6a55-4260-9ad7-2494ab35a40b',
-    timestamp: 2025-06-14T16:18:15.578Z,
+    id: '0a3ba050-ed25-4bcd-b924-70490fb01a54',
+    time: '2025-06-14T21:39:27.962Z',
+    specversion: '1.0',
     data: { isbn: '123' }
   },
   {
     source: 'https://library.evcojs.org',
     subject: '/book/123',
     type: 'event.book.copy.registered',
-    id: 'c5475ef8-385e-4f31-b168-a668b26a9956',
-    timestamp: 2025-06-14T16:18:15.578Z,
+    id: '3be704ed-e623-4ca4-8351-ee6648005abd',
+    time: '2025-06-14T21:39:27.962Z',
+    specversion: '1.0',
     data: { isbn: '123' }
   },
   {
     source: 'https://library.evcojs.org',
     subject: '/book/123',
     type: 'event.book.copy.borrowed',
-    id: 'd4468205-28af-4adf-b661-5240af92d48d',
-    timestamp: 2025-06-14T16:18:15.578Z,
+    id: '99b46238-8289-49dc-8c53-b227e68e8b17',
+    time: '2025-06-14T21:39:27.962Z',
+    specversion: '1.0',
     data: { isbn: '123' }
   },
   {
     source: 'https://library.evcojs.org',
     subject: '/book/123',
     type: 'event.book.copy.borrowed',
-    id: '4c1b0283-1370-4a3b-84e6-f4bb0ac2cbff',
-    timestamp: 2025-06-14T16:18:15.578Z,
+    id: 'c0198478-de1a-4303-871e-4c8e22cea056',
+    time: '2025-06-14T21:39:27.962Z',
+    specversion: '1.0',
     data: { isbn: '123' }
   },
   {
     source: 'https://library.evcojs.org',
     subject: '/book/123',
     type: 'event.book.copy.returned',
-    id: '6fbf717e-db30-44b0-9626-e346d083ccdc',
-    timestamp: 2025-06-14T16:18:15.578Z,
+    id: '5952a407-5737-468d-bfbf-15968b237083',
+    time: '2025-06-14T21:39:27.962Z',
+    specversion: '1.0',
     data: { isbn: '123' }
   }
 ]
