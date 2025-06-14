@@ -3,7 +3,11 @@ import {
   registerEventhandler,
   registerStateLoadingFunction,
 } from "evcojs";
-import { inMemoryDatabase } from "../../database/in-memory-database";
+import {
+  BookProjection,
+  eventStore,
+  projectionTable,
+} from "../../database/in-memory-database";
 import {
   BookBorrowedEvent,
   BookCopyRegisteredEvent,
@@ -22,7 +26,8 @@ function onBookRegistered(
   event: CloudEvent<BookCopyRegisteredEvent>,
   state?: State
 ) {
-  inMemoryDatabase.push({ ...event });
+  eventStore.push({ ...event });
+  updateProjection(event.data.isbn, state!);
 }
 
 /**
@@ -32,7 +37,9 @@ function onBookRegistered(
  * @param state the current state of the domain, can be null
  */
 function onBookBorrowed(event: CloudEvent<BookBorrowedEvent>, state?: State) {
-  inMemoryDatabase.push({ ...event });
+  eventStore.push({ ...event });
+
+  updateProjection(event.data.isbn, state!);
 }
 
 /**
@@ -42,7 +49,9 @@ function onBookBorrowed(event: CloudEvent<BookBorrowedEvent>, state?: State) {
  * @param state the current state of the domain, can be null
  */
 function onBookReturned(event: CloudEvent<BookBorrowedEvent>, state?: State) {
-  inMemoryDatabase.push({ ...event });
+  eventStore.push({ ...event });
+
+  updateProjection(event.data.isbn, state!);
 }
 
 /**
@@ -53,10 +62,19 @@ function onBookReturned(event: CloudEvent<BookBorrowedEvent>, state?: State) {
  */
 function stateLoading(subjects: string[]): Promise<CloudEvent<any>[]> {
   //fake database ... you usually would load your events from database here
-  const events = inMemoryDatabase.filter((event) =>
-    subjects.includes(event.subject)
-  );
+  const events = eventStore.filter((event) => subjects.includes(event.subject));
   return Promise.resolve(events);
+}
+
+function updateProjection(isbn: string, state: State) {
+  const currentProjection = projectionTable.get(isbn);
+  if (!currentProjection) return;
+  const projection: BookProjection = {
+    ...currentProjection,
+    amount: state!.amount,
+    maxCopies: state!.maxCopies,
+  };
+  projectionTable.set(isbn, projection);
 }
 
 /**

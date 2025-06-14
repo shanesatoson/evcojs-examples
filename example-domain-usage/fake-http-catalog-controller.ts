@@ -1,5 +1,6 @@
-import { handleCommand } from "evcojs";
+import { createState, handleCommand } from "evcojs";
 import { registerCatalogBookDomain as registerBookCatalogDomain } from "../domain-modules/book-catalog";
+import { CATALOG_CONTEXT } from "../domain-modules/book-catalog/book-catalog.model";
 
 //After that call the handle command function know the "book catalog" events,
 // staterebuilder, stateloader and commands
@@ -31,4 +32,9 @@ export async function POST(body: PostBodyDto) {
   } catch (e: unknown) {
     console.log(e);
   }
+}
+
+export async function GET_CATALOG_STATE() {
+  const catalogState = await createState(CATALOG_CONTEXT, ["/book/123"]);
+  return catalogState;
 }

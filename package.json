@@ -5,13 +5,14 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "watch": "tsx watch index.ts"
+    "watch": "tsx watch index.ts",
+    "dev": "tsx index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "evcojs": "^1.0.0-rc6"
+    "evcojs": "^1.0.0-rc7"
   },
   "devDependencies": {
     "tsx": "^4.19.4"

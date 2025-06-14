@@ -3,7 +3,11 @@ import {
   registerEventhandler,
   registerStateLoadingFunction,
 } from "evcojs";
-import { inMemoryDatabase } from "../../database/in-memory-database";
+import {
+  BookProjection,
+  eventStore,
+  projectionTable,
+} from "../../database/in-memory-database";
 import {
   BookCatalogedEvent,
   BookTitleChangedEvent,
@@ -17,7 +21,16 @@ import {
  */
 function handleBookCatalogedEvent(event: CloudEvent<BookCatalogedEvent>) {
   //fake database ... you usually would store your events here persistently
-  inMemoryDatabase.push({ ...event });
+  eventStore.push({ ...event });
+}
+
+function projectBookCatalogedEvent(event: CloudEvent<BookCatalogedEvent>) {
+  const projection: BookProjection = {
+    isbn: event.data.isbn,
+    title: event.data.title,
+    author: event.data.author,
+  };
+  projectionTable.set(event.data.isbn, projection);
 }
 
 /**
@@ -27,7 +40,19 @@ function handleBookCatalogedEvent(event: CloudEvent<BookCatalogedEvent>) {
  */
 function handleBookTitleChangedEvent(event: CloudEvent<BookTitleChangedEvent>) {
   //fake database ... you usually would store your events here persistently
-  inMemoryDatabase.push({ ...event });
+  eventStore.push({ ...event });
+}
+
+function projectBookTitleChangedEvent(
+  event: CloudEvent<BookTitleChangedEvent>
+) {
+  const currentProjection = projectionTable.get(event.data.isbn);
+  if (!currentProjection) return;
+  const projection: BookProjection = {
+    ...currentProjection,
+    title: event.data.title,
+  };
+  projectionTable.set(event.data.isbn, projection);
 }
 
 /**
@@ -40,9 +65,7 @@ async function getStaterebuildingEvents(
   subjects: string[]
 ): Promise<CloudEvent<any>[]> {
   //fake database ... you usually would load your events from database here
-  const events = inMemoryDatabase.filter((event) =>
-    subjects.includes(event.subject)
-  );
+  const events = eventStore.filter((event) => subjects.includes(event.subject));
   return Promise.resolve(events);
 }
 
@@ -55,5 +78,10 @@ async function getStaterebuildingEvents(
 export function registerEventhandlerAndStateloading() {
   registerEventhandler("event.book.cataloged", handleBookCatalogedEvent);
   registerEventhandler("event.book.title.changed", handleBookTitleChangedEvent);
+  registerEventhandler("event.book.cataloged", projectBookCatalogedEvent);
+  registerEventhandler(
+    "event.book.title.changed",
+    projectBookTitleChangedEvent
+  );
   registerStateLoadingFunction(CATALOG_CONTEXT, getStaterebuildingEvents);
 }

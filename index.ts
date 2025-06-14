@@ -1,9 +1,11 @@
-import { createState, setSource } from "evcojs";
-import { inMemoryDatabase } from "./database/in-memory-database";
-import { CATALOG_CONTEXT } from "./domain-modules/book-catalog/book-catalog.model";
-import { INVENTORY_CONTEXT } from "./domain-modules/book-inventory/book-inventory.model";
-import { POST as POST_CATALOG } from "./example-domain-usage/fake-http-catalog-controller";
+import { setSource } from "evcojs";
+import { eventStore, projectionTable } from "./database/in-memory-database";
 import {
+  GET_CATALOG_STATE,
+  POST as POST_CATALOG,
+} from "./example-domain-usage/fake-http-catalog-controller";
+import {
+  GET_INVENTORY_STATE,
   POST_BORROW,
   POST_REGISTER,
   POST_RETURN,
@@ -41,13 +43,19 @@ await POST_RETURN({
   isbn: "123",
 });
 
-const catalogState = await createState(CATALOG_CONTEXT, ["/book/123"]);
+const catalogState = await GET_CATALOG_STATE();
 console.log("catalog state:", catalogState);
-const inventoryState = await createState(INVENTORY_CONTEXT, ["/book/123"]);
+const inventoryState = await GET_INVENTORY_STATE();
 console.log("inventory state: ", inventoryState); //amount 1, maxCopies 2
+
+console.log("");
+console.log("# ----------------------------------------------- #");
+console.log("projections:");
+console.log("# ----------------------------------------------- #");
+console.log(projectionTable);
 
 console.log("");
 console.log("# ----------------------------------------------- #");
 console.log("events:");
 console.log("# ----------------------------------------------- #");
-console.log(inMemoryDatabase);
+console.log(eventStore);

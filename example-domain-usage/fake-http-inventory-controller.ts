@@ -1,5 +1,6 @@
-import { handleCommand } from "evcojs";
+import { createState, handleCommand } from "evcojs";
 import { registerBookInventoryDomain } from "../domain-modules/book-inventory";
+import { INVENTORY_CONTEXT } from "../domain-modules/book-inventory/book-inventory.model";
 
 //After that call the handle command function know the "book inventory" events,
 //staterebuilder, stateloader and commands
@@ -67,4 +68,9 @@ export async function POST_RETURN(body: PostBodyDto) {
   } catch (e: unknown) {
     console.log(e);
   }
+}
+
+export async function GET_INVENTORY_STATE() {
+  const inventoryState = await createState(INVENTORY_CONTEXT, ["/book/123"]);
+  return inventoryState;
 }
