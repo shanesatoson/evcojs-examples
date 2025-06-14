@@ -17,9 +17,9 @@ interface PostBodyDto {
  *
  * @param body http body
  */
-export async function POST(body: PostBodyDto) {
+export async function POST_CATALOG_BOOK(body: PostBodyDto) {
   try {
-    await handleCommand({
+    const state = await handleCommand({
       type: "command.book-catalog.catalog.book", //identifier of the command to find the handler
       subjects: ["/book/" + body.isbn], //events to rebuild the state
       data: {
@@ -29,6 +29,7 @@ export async function POST(body: PostBodyDto) {
         author: body.author,
       },
     });
+    console.log("here you can do anything with the current state", state);
   } catch (e: unknown) {
     console.log(e);
   }

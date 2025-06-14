@@ -2,7 +2,7 @@ import { setSource } from "evcojs";
 import { eventStore, projectionTable } from "./database/in-memory-database";
 import {
   GET_CATALOG_STATE,
-  POST as POST_CATALOG,
+  POST_CATALOG_BOOK,
 } from "./example-domain-usage/fake-http-catalog-controller";
 import {
   GET_INVENTORY_STATE,
@@ -14,7 +14,7 @@ import {
 setSource("https://library.evcojs.org"); //For CloudEvents.source field globally
 
 // add a book to our catalog
-await POST_CATALOG({
+await POST_CATALOG_BOOK({
   isbn: "123",
   title: "123",
   author: "123",
