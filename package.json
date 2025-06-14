@@ -1,0 +1,19 @@
+{
+  "name": "git",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "watch": "tsx watch index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "evcojs": "^1.0.0-rc3"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.4"
+  }
+}
