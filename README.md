@@ -17,7 +17,7 @@ npm run watch
 
 ## output
 
-```json
+```bash
 here you can do anything with the current state { isbn: '123', title: '123', author: '123' }
 catalog state: { isbn: '123', title: '123', author: '123' }
 inventory state:  { isbn: '123', amount: 1, maxCopies: 2 }
