@@ -15,7 +15,7 @@ npm run dev
 npm run watch
 ```
 
-## output
+## output from idex.ts
 
 ```bash
 here you can do anything with the current state { isbn: '123', title: '123', author: '123' }
